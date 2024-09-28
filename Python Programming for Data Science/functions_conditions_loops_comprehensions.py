@@ -1,9 +1,14 @@
 #######################################################
 # FONKSİYONLAR, KOŞULLAR, DÖNGÜLER, COMPREHENSIONS
 #######################################################
+from collections.abc import dict_items
+
 from PIL.ImImagePlugin import number
+from dask.array.fft import ifft2
+from mypyc.primitives.list_ops import new_list_set_item_op
 from nltk.corpus import reuters
 from openpyxl.styles.builtins import output
+from pyarrow import dictionary
 
 #######################################################
 # Functions (Fonksiyonlar)
@@ -464,12 +469,192 @@ list_store = [1, 2, 3, 4]
 
 reduce(lambda x, y: x + y, list_store)
 
-
 #######################################################
 # Comprehensions
 #######################################################
 
+# List Comprehensions
 
+salaries = [1000, 2000, 3000, 4000, 5000]
+
+def new_salary(x):
+    return (x * 120) / 100
+
+new_sal = []
+
+for salary in salaries:
+    new_sal.append(new_salary(salary))
+    print(new_sal)
+
+for salary in salaries:
+    if salary <3000:
+        new_sal.append(new_salary(salary))
+    else:
+        n_salary = (salary * 120) / 100
+        new_sal.append(n_salary)
+new_sal[0]
+
+# Buraya kadarki kısım eski yaptıklarımız. List Comprehensions yapısı bundan sonraki kısımdadır.
+
+# Öncelikle liste yapısı oluşturulur.
+
+[salary * 2 for salary in salaries]
+
+# Eğer else kullanılmıyorsa if sağ tarafa yazılır. Kullanılıyorsa for sağ tarafta kalır.
+
+[salary * 2  for salary in salaries if salary<3000]
+
+[salary * 2 if salary <3000 else salary*4 for salary in salaries]
+
+[new_salary(salary) if salary <3000 else salary*3 for salary in salaries]
+
+[new_salary(salary * 2) if salary <3000 else salary * 3 for salary in salaries]
+
+# Örnek
+
+students = ["John", "Mark", "Venessa", "Mariam"]       # Tüm öğrenciler
+
+students_no = ["John", "Venessa"]                      # İstenmeyen öğrenciler küçük yazılacak geri kalanlar büyük.
+
+[student.lower() if student in students_no else student.upper() for student in students]
+
+[student.upper() if student not in students_no else student.lower() for student in students]
+
+
+# Dict Comprehensions
+
+dictionary = {"a": 1,
+              "b": 2,
+              "c": 3,
+              "d": 4}
+
+dictionary.keys()
+dictionary.values()
+dictionary.items()                # Her bir elemanı tuple şeklinde liste formunda erişmek için kullanılır.
+
+# Dictionary çağrılamaz onun yerine dictionary.items() çağrılmalıdır.
+
+{k: v**2 for (k, v) in dictionary.items()}
+
+{k.upper(): v for (k, v) in dictionary.items()}
+
+{k.upper(): v**2 for(k,v) in dictionary.items()}
+
+
+#######################################################
+# Uygulama - Mülakat Sorusu
+#######################################################
+
+# Çift sayıların karesi alınarak bir sözlüğe eklenmek isteniyor.
+# Keyler orijinal sayı, valueler karesi alınmış sayılar olacak.
+
+numbers = range(10)
+
+new_dict = {}
+
+
+for n in numbers:
+    if n % 2 ==0:
+        # new_dict[n]: key, n**2: value
+        new_dict[n] = n**2
+
+{n: n**2 for n in numbers if n %2==0}
+
+
+# List & Dict Comprehension Uygulamalar
+
+# Bir veri setindeki değişken isimlerini değiştirmek
+
+# before:
+# ["total", "speeding", "alcohol", "not_distracted", "no_previous", "ins_premium", "ins_losses", "abbrev"]
+
+# after:
+# ['TOTAL', 'SPEEDING', 'ALCOHOL', 'NOT_DISTRACTED', 'NO_PREVIOUS', 'INS_PREMIUM', 'INS_LOSSES', 'ABBREV']
+
+# Not: df =data frame (veri çerçevesi) verileri tablo şeklinde tutmak excel gibi
+
+# Data frame'in değişkenlerinin isimlerini büyütme. Normal yöntemlerle
+
+import seaborn as sns
+df = sns.load_dataset("car_crashes")
+df.columns
+
+for col in df.columns:
+    print(col.upper())
+
+A =[]
+
+for col in df.columns:
+    A.append(col.upper())
+
+df.columns = A
+
+
+# List Comprehension ile veri setindeki değişkenleri büyütme
+
+import seaborn as sns
+df = sns.load_dataset("car_crashes")
+
+df.columns = [col.upper() for col in df.columns]
+
+
+# İsminde "INS" olanların başına "FLAG" diğerlerine NO_FLAG ekle.
+
+import seaborn as sns
+df = sns.load_dataset("car_crashes")
+df.columns
+
+["FLAG_"+col if "INS" in col else "NO_FLAG_" + col for col in df.columns]
+
+[col for col in df.columns if "INS" in col]                                          # İçinde "INS" geçenler
+
+["FLAG_"+col for col in df.columns if "INS" in col]                                  # İçinde "INS" geçenlerin başına "FLAG"
+
+["FLAG"+col if "INS_" in col else "NO_FLAG_" + col for col in df.columns]            # Sorunun cevabı
+
+df.columns = ["FLAG_"+col if "INS" in col else "NO_FLAG_" + col for col in df.columns]
+
+
+# Örnek
+# Key'i string value'si aşağıdaki gibi bir sözlük oluşturmak.
+# Sadece sayısal değişkenler için yapılması gerekiyor.
+
+# Output :
+# {"total": ["mean", "min", "max", "sum"],
+#  "speeding": ["mean", "min", "max", "sum"],
+#  "alcohol": ["mean", "min", "max", "sum"],
+#  "not_distracted": ["mean", "min", "max", "sum"],
+#  "no_previous": ["mean", "min", "max", "sum"],
+#  "ins_premium": ["mean", "min", "max", "sum"],
+#  "ins_losses": ["mean", "min", "max", "sum"]}
+
+#  Listenin içinde yazanlar aslında birer fonksiyon, agg(aggrigation) fonksiyonunu kullanarak num_cols içindeki data framelerle eşler
+#  ve listenin içindeki fonksiyonları data framedeki değişkenlere uygular.
+
+
+import seaborn as sns
+df = sns.load_dataset("car_crashes")
+df.columns
+
+num_cols = [col for col in df.columns if df[col].dtype !="O" ]
+# "O" object yani kategorik değişkenleri temsil eder.
+# Sadece sayısal değerlere ihtiyacımız olduğu için olmayanları seçtik.
+
+
+soz = {}
+agg_list = ["mean", "min", "max", "sum"]
+
+# key değeri köşeli parantez ile yazılır value'ye eşitlenir.
+for col in num_cols:
+    soz[col] = agg_list
+
+# Kısa yol (Comprehensions ile)
+# head() boş bırakılırsa ilk 5ini getirir. 0-4
+
+new_diction = {col:agg_list for col in num_cols }
+df[num_cols].head()
+
+df[num_cols].agg(new_diction)
 
 
 

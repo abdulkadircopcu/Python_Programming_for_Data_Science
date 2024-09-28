@@ -234,7 +234,7 @@ dictionary.values()
 # Sözlüğü liste içerisinde key ve valueları Tuple cinsinde verir.
 dictionary.items()
 
-# Key ve value güncelleme, eklemek için de update kullanılır.
+# Key ve value güncelleme yoksa eklemek için de update kullanılır.
 dictionary.update({"REG" : 11})
 dictionary.update({"SA" : ["AS", 31]})
 
