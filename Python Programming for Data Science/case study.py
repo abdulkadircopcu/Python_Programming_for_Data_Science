@@ -77,8 +77,6 @@ for ders_kodu, kredi, kontenjan in ders_bilgisi:
     print(f" Kredisi {kredi} olan {ders_kodu} kodlu ders kontenjanı {kontenjan} kişidir.")
 
 
-
-
 # Görev 8
 # Aşağıda 2 adet set(küme) verilmiştir. Eğer 1.küme 2. kümeyi kapsıyor ise ortak elemanlarını, kapsamıyor ise 2.kümenin
 # 1.kümeden farkını yazdıracak fonksiyonu yazınız.
