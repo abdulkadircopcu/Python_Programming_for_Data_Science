@@ -242,8 +242,8 @@ students[0]
 for student in students:
     print(student.upper())
 
-"salaries = [1000, 2000, 3000, 4000, 5000]
-"
+salaries = [1000, 2000, 3000, 4000, 5000]
+
 for salary in salaries:
     print(int((salary * 120) / 100))
 
@@ -453,13 +453,27 @@ list_store = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 list(filter(lambda x: x%2 == 0, list_store))
 
+
+#######################################################
 # Reduce (İndirgemek)
+#######################################################
 
 from functools import  reduce
 
 list_store = [1, 2, 3, 4]
 
 reduce(lambda x, y: x + y, list_store)
+
+
+#######################################################
+# Comprehensions
+#######################################################
+
+
+
+
+
+
 
 
 
