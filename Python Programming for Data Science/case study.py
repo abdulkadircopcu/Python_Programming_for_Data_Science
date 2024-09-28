@@ -71,7 +71,10 @@ ders_kodu = ["CMP1005", "PSY1001", "HUK1005", "SEN2204"]
 kredi = [3, 4, 2, 4]
 kontenjan = [30, 75, 150, 25]
 
-list(zip(ders_kodu,kredi,kontenjan))
+ders_bilgisi = zip(ders_kodu,kredi,kontenjan)
+
+for ders_kodu, kredi, kontenjan in ders_bilgisi:
+    print(f" Kredisi {kredi} olan {ders_kodu} kodlu ders kontenjanı {kontenjan} kişidir.")
 
 
 
