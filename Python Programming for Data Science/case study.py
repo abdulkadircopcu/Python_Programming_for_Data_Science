@@ -65,11 +65,15 @@ for index, student in enumerate(students[3:],1):
 # Görev 7
 # Aşağıda 3 adet liste verilmiştir. Dersin kodu, kredisi ve kontenjan bilgisi yer almaktadır. Zip kullanarak dersleri bastırınız.
 
+
+
 ders_kodu = ["CMP1005", "PSY1001", "HUK1005", "SEN2204"]
 kredi = [3, 4, 2, 4]
 kontenjan = [30, 75, 150, 25]
 
 list(zip(ders_kodu,kredi,kontenjan))
+
+
 
 
 # Görev 8
