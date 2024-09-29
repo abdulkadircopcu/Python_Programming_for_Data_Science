@@ -13,7 +13,8 @@ lst= ["D", "A", "T", "A", "S", "C", "I", "E", "N", "C", "E"]
 len(lst)
 lst[0]
 lst[10]
-lst[0:4]
+new_lst = list(lst[0:4])
+# lst[0:4]
 lst.pop(8)
 lst.append(3)
 lst.insert(8, "N")
