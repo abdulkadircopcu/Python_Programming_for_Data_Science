@@ -3,9 +3,8 @@
 from pexpect.replwrap import python
 
 text = "The goal is to turn data into information, and information into insight."
-buyutme = text.upper()
-ayirma = buyutme.split()
-print(ayirma)
+
+text.upper().replace(",", " ").replace(".", " ").split()
 
 
 # Görev 3
