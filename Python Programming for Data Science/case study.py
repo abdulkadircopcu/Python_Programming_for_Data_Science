@@ -81,6 +81,9 @@ ders_bilgisi = zip(ders_kodu,kredi,kontenjan)
 for ders_kodu, kredi, kontenjan in ders_bilgisi:
     print(f" Kredisi {kredi} olan {ders_kodu} kodlu ders kontenjanı {kontenjan} kişidir.")
 
+# 2.yol
+for i in range(len(kredi)):
+  print(f"Ders kodu {ders_kodu[i]} kredi {kredi[i]} kontenjan {kontenjan[i]}")
 
 # Görev 8
 # Aşağıda 2 adet set(küme) verilmiştir. Eğer 1.küme 2. kümeyi kapsıyor ise ortak elemanlarını, kapsamıyor ise 2.kümenin
@@ -109,7 +112,6 @@ kume_farki(kume1,kume2)
 import seaborn as sns
 df = sns.load_dataset("car_crashes")
 df.columns
-
 df.columns = ["NUM_" + col.upper()  if df[col].dtype!="O" else col.upper() for col in df.columns]
 
 # Görev 2
