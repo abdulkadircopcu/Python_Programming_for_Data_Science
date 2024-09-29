@@ -30,7 +30,10 @@ dict= {"Christian": ["America", 18],
 
 dict.keys()
 dict.values()
-dict["Daisy"] =["Daisy", 13]
+
+dict["Daisy"] =["Daisy", ["England",13]]
+dict["Daisy"][1]=13
+
 dict.update({"Ahmet": ["Turkey", 24]})
 dict.pop("Antonio")
 
@@ -38,18 +41,20 @@ dict.pop("Antonio")
 # Argüman olarak bir liste olan, listenin içerisindeki tek ve çift sayıları farklı listelere atayan ve bu listeleri return eden bir fonksiyon.
 
 lis= [2, 13, 18, 93, 22]
-tek_list = []
-cift_list = []
 
-def func():
+def func(liste):
+    tek_list = []
+    cift_list = []
     for l in lis:
         if l %2 ==0:
             cift_list.append(l)
         else:
             tek_list.append(l)
-    return
+    return cift_list, tek_list
 
-func()
+
+cift, tek =func(lis)
+func(lis)
 
 # Görev 6
 # İlk 3 öğrenci mühendislik fak başarı sırası, son 3 tıp fak başarı sırası. Fakültelere göre öğrencileri yaz
