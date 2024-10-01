@@ -139,5 +139,3 @@ new_df = df[new_cols]
 
 
 
-
-
